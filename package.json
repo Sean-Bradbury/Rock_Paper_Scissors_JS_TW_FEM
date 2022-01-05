@@ -1,0 +1,26 @@
+{
+  "name": "rock-paper-scissors-pure",
+  "version": "1.0.0",
+  "description": "![Design preview for the Rock, Paper, Scissors coding challenge](./design/desktop-preview.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:tw": "npx tailwindcss -i ./src/styles/style.css -o ./dist/output.css --watch",
+    "build:js": "babel src/js/app.js --watch --out-file dist/app.bundle.js",
+    "build:w": "npm-run-all --parallel build:js build:tw"
+  },
+  "author": "Sean Bradbury",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "babel-watch": "^7.7.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.5",
+    "postcss-cli": "^9.1.0",
+    "tailwind-watch": "0.0.6",
+    "tailwindcss": "^3.0.7"
+  },
+  "dependencies": {}
+}
