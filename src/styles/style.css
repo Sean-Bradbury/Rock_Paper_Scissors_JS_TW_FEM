@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer utilities {
+    /* Colors */
+    .color-scissors-gradient {
+        background: linear-gradient(hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+        background-repeat: no-repeat;
+    }
+    .color-paper-gradient {
+        background: linear-gradient(hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+        background-repeat: no-repeat;
+    }
+    .color-rock-gradient {
+        background: linear-gradient(hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+        background-repeat: no-repeat;
+    }
+    .color-lizard-gradient {
+        background: linear-gradient(hsl(261, 73%, 60%), hsl(261, 72%, 63%));
+        background-repeat: no-repeat;
+    }
+    .color-cyan-gradient {
+        background: linear-gradient(hsl(189, 59%, 53%), hsl(189, 58%, 57%));
+        background-repeat: no-repeat;
+    }
+    .color-header {
+        color: hsl(217, 16%, 45%);
+    }
+    .color-bg-main {
+        background: linear-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+        background-repeat: no-repeat;
+    }
+    /* Text */
+    .text-dark {
+        color: hsl(229, 25%, 31%);
+    }
+    .text-score {
+        color: hsl(229, 64%, 46%);
+        font-size: 10px;
+    }
+
+    .game-area-container {
+        height: 500px;
+    }
+
+    .choice-container {
+        @apply  h-36 w-36 border rounded-full flex justify-center items-center bg-white cursor-pointer;
+    }
+
+    .choice-container-wrap.paper {
+        @apply p-5 rounded-full color-paper-gradient;
+    }
+
+    .choice-container-wrap.scissors {
+        @apply p-5 rounded-full color-scissors-gradient;
+    }
+
+    .choice-container-wrap.rock {
+        @apply p-5 rounded-full color-rock-gradient;
+    }
+
+    :root {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        background: linear-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+        background-repeat: no-repeat;
+        overflow-x: hidden;
+        height: 100vh;
+    }
+
+    .header {
+        width: 700px;
+        height: 145px;
+    }
+
+    .game-area {
+        background: no-repeat bottom center url("/src/images/bg-triangle.svg");
+    }    
+    
+    .border-light {
+        @apply rounded-lg;
+        border: 2px solid hsl(217, 16%, 45%);
+    }
+    
+    button {
+        color: white;
+        font-size: 10px;
+    }
+
+    .close-modal-btn {
+        background: no-repeat center center url('../src/images/icon-close.svg');
+        height: 15px;
+        width: 15px;
+    }
+}
+
