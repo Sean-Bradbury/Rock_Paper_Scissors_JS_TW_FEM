@@ -8,30 +8,44 @@ var DataCtrl = function () {
     computerSelection: ''
   };
 
-  var _handleData = function handleData(key, value, score) {
-    if (score) {
-      data.score === score;
-    }
-
-    if (key) {
-      if (key === 'computerSelection') {
-        data.computerSelection = value;
-      }
-
-      if (key === 'userSelection') {
-        data.userSelection = value;
-      }
-    }
-
+  var _handleData = function handleData(theComputerSelection, theUserSelection) {
+    data.userSelection = theUserSelection;
+    data.computerSelection = theComputerSelection;
+    var findTheWinner = findWinner();
+    data.score = findTheWinner[0];
+    var theWinner = findTheWinner[1];
     console.log(data);
+    console.log(theWinner);
   };
+
+  function findWinner() {
+    var user = data.userSelection;
+    var computer = data.computerSelection;
+    var score = data.score;
+    var winner = '';
+
+    if (user === 'scissors') {
+      computer === 'rock' ? (score = --score, winner = 'computer') : computer === 'paper' ? (score = ++score, winner = 'user') : (score = score, winner = 'draw');
+      return [score, winner];
+    }
+
+    if (user === 'rock') {
+      computer === 'scissors' ? (score = ++score, winner = 'user') : computer === 'paper' ? (score = --score, winner = 'computer') : (score = score, winner = 'draw');
+      return [score, winner];
+    }
+
+    if (user === 'paper') {
+      computer === 'scissors' ? (score = --score, winner = 'computer') : computer === 'rock' ? (score = ++score, winner = 'user') : (score = score, winner = 'draw');
+      return [score, winner];
+    }
+  }
 
   return {
     getData: function getData() {
       return data;
     },
-    handleData: function handleData(key, value, score) {
-      _handleData(key, value, score);
+    handleData: function handleData(theComputerSelection, theUserSelection) {
+      _handleData(theComputerSelection, theUserSelection);
     }
   };
 }(); // UI Controller
@@ -42,7 +56,8 @@ var UICtrl = function () {
     gameArea: '.game-area',
     choiceContainer: '.choice-container',
     jsRulesModal: '.js-rules-modal',
-    jsRulesModalClose: '.js-modal-close'
+    jsRulesModalClose: '.js-modal-close',
+    jsModal: '.js-modal'
   };
 
   var showModal = function showModal() {
@@ -53,18 +68,32 @@ var UICtrl = function () {
 
       var div = document.createElement('div'); // Add classes
 
-      div.classList.add('js-modal', 'absolute', 'bg-white', 'w-80', 'h-80', 'top-5');
-      div.innerHTML = "\n            <div class=\"p-5\">\n                <div class=\"flex justify-between items-center\">\n                    <h3 class=\"text-xl uppercase leading-5\">Rules</h3>\n                    <button class=\"js-modal-close close-modal-btn h-5 w-5 flex justify-center items-center text-black\"></button>\n                </div>           \n            </div>";
+      div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded');
+      div.innerHTML = "\n            <div class=\"p-5\">\n                <div class=\"flex justify-between items-center\">\n                    <h3 class=\"text-xl uppercase leading-5\">Rules</h3>\n                    <button class=\"js-modal-close close-modal-btn h-5 w-5 flex justify-center items-center text-black\"></button>\n                </div>           \n                <img class=\"mt-10 h-80\" src=\"src/images/image-rules.svg\" />\n            </div>";
       document.body.appendChild(div);
+      document.querySelector(UISelectors.jsRulesModalClose).addEventListener('click', closeModal);
+      document.addEventListener('click', closeModalOutsideClick);
     } else {
       closeModal();
     }
-
-    document.querySelector(UISelectors.jsRulesModalClose).addEventListener('click', closeModal);
   };
 
   function closeModal() {
-    document.querySelector('.js-modal').remove();
+    var jsModal = document.querySelector('.js-modal');
+
+    if (jsModal) {
+      document.querySelector('.js-modal').remove();
+    }
+  }
+
+  function closeModalOutsideClick() {
+    var targetElement = event.target;
+
+    if (UISelectors.jsModal) {
+      if (!targetElement.classList.contains('js-rules-modal') && !targetElement.closest('.js-modal')) {
+        closeModal();
+      }
+    }
   }
 
   return {
@@ -73,6 +102,9 @@ var UICtrl = function () {
     },
     CloseModal: function CloseModal() {
       closeModal();
+    },
+    CloseModalOutsideClick: function CloseModalOutsideClick() {
+      closeModalOutsideClick();
     },
     GetSelectors: function GetSelectors() {
       return UISelectors;
@@ -90,60 +122,20 @@ var App = function (UICtrl, DataCtrl) {
     });
   };
 
-  var handleChoiceClick = function handleChoiceClick(e) {
-    var target = e.target;
+  var handleChoiceClick = function handleChoiceClick() {
+    var target = event.target;
     var realTarget = target.closest('.choice-container');
-    DataCtrl.handleData('computerSelection', randomComputerSelection(), null);
 
     if (realTarget.classList.contains('js-paper')) {
-      DataCtrl.handleData('userSelection', 'paper', handleWinner());
+      DataCtrl.handleData(randomComputerSelection(), 'paper');
     }
 
     if (realTarget.classList.contains('js-rock')) {
-      DataCtrl.handleData('userSelection', 'rock', handleWinner());
+      DataCtrl.handleData(randomComputerSelection(), 'rock');
     }
 
     if (realTarget.classList.contains('js-scissors')) {
-      DataCtrl.handleData('userSelection', 'scissors', handleWinner());
-    }
-  };
-
-  var handleWinner = function handleWinner() {
-    var data = DataCtrl.getData();
-
-    if (data.userSelection === 'scissors' && data.computerSelection === 'rock') {
-      var newScore = data.score--;
-      return newScore;
-    }
-
-    if (data.userSelection === 'rock' && data.computerSelection === 'scissors') {
-      var _newScore = data.score++;
-
-      return _newScore;
-    }
-
-    if (data.userSelection === 'rock' && data.computerSelection === 'paper') {
-      var _newScore2 = data.score--;
-
-      return _newScore2;
-    }
-
-    if (data.userSelection === 'paper' && data.computerSelection === 'rock') {
-      var _newScore3 = data.score++;
-
-      return _newScore3;
-    }
-
-    if (data.userSelection === 'paper' && data.computerSelection === 'scissors') {
-      var _newScore4 = data.score--;
-
-      return _newScore4;
-    }
-
-    if (data.userSelection === 'scissors' && data.computerSelection === 'paper') {
-      var _newScore5 = data.score++;
-
-      return _newScore5;
+      DataCtrl.handleData(randomComputerSelection(), 'scissors');
     }
   };
 
@@ -157,6 +149,9 @@ var App = function (UICtrl, DataCtrl) {
     init: function init() {
       loadEventListeners();
       console.log('app initialized');
+    },
+    HandleWinner: function HandleWinner(theComputerSelection, theUserSelection, score) {
+      handleWinner(theComputerSelection, theUserSelection, score);
     }
   };
 }(UICtrl, DataCtrl);

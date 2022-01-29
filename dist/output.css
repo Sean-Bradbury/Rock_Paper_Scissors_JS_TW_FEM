@@ -466,6 +466,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 1.25rem;
 }
 
+.mt-10{
+  margin-top: 2.5rem;
+}
+
 .flex{
   display: flex;
 }
@@ -474,12 +478,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
-.h-80{
-  height: 20rem;
-}
-
 .h-5{
   height: 1.25rem;
+}
+
+.h-80{
+  height: 20rem;
 }
 
 .w-10\/12{
@@ -488,10 +492,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-full{
   width: 100%;
-}
-
-.w-80{
-  width: 20rem;
 }
 
 .w-5{
@@ -649,8 +649,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-family: 'Barlow Semi Condensed', sans-serif;
   background: linear-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
   background-repeat: no-repeat;
-  height: 100vh;
   overflow-x: hidden;
+  height: 100vh;
 }
 
 .header {
@@ -674,6 +674,8 @@ button {
 
 .close-modal-btn {
   background: no-repeat center center url('../src/images/icon-close.svg');
+  height: 15px;
+  width: 15px;
 }
 
 @media (min-width: 1024px){

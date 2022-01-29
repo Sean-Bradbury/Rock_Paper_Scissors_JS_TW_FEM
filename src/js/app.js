@@ -6,30 +6,47 @@ const DataCtrl = (function(){
         computerSelection: '',
     }
 
-    const handleData = function(key, value, score){        
-        if(score){
-            data.score === score;
+    const handleData = function(theComputerSelection, theUserSelection){  
+        data.userSelection = theUserSelection;
+        data.computerSelection = theComputerSelection;
+        const findTheWinner = findWinner();
+        data.score = findTheWinner[0];
+
+        const theWinner = findTheWinner[1];
+        
+        
+        console.log(data);
+        console.log(theWinner);
+    }
+
+    function findWinner(){
+        const user = data.userSelection;
+        const computer = data.computerSelection;
+        let score = data.score;
+        let winner = '';
+
+        if(user === 'scissors'){
+            computer === 'rock' ? (score = --score, winner = 'computer') : computer === 'paper' ? (score = ++score, winner = 'user') : (score = score, winner = 'draw') ;
+            return ([score, winner]);
         }
 
-        if(key){
-            if(key === 'computerSelection'){
-                data.computerSelection = value;
-            }
-            
-            if(key === 'userSelection'){
-                data.userSelection = value;
-            }
-        }       
+        if(user === 'rock'){
+            computer === 'scissors' ? (score = ++score, winner = 'user') : computer === 'paper' ? (score = --score, winner = 'computer') : (score = score, winner = 'draw') ;
+            return ([score, winner]);
+        }
 
-        console.log(data);
+        if(user === 'paper'){
+            computer === 'scissors' ? (score = --score, winner = 'computer') : computer === 'rock' ? (score = ++score, winner = 'user') : (score = score, winner = 'draw') ;
+            return ([score, winner]);
+        }
     }
 
     return {
         getData: function(){
             return data;
         },
-        handleData: function(key, value, score){
-            handleData(key, value, score);
+        handleData: function(theComputerSelection, theUserSelection){
+            handleData(theComputerSelection, theUserSelection);
         }
     }
 })();
@@ -41,6 +58,7 @@ const UICtrl = (function(){
         choiceContainer: '.choice-container',
         jsRulesModal: '.js-rules-modal',
         jsRulesModalClose: '.js-modal-close',
+        jsModal: '.js-modal'
     }
 
     const showModal = function(){
@@ -51,7 +69,7 @@ const UICtrl = (function(){
             // Create div
             const div = document.createElement('div');
             // Add classes
-            div.classList.add('js-modal', 'absolute', 'bg-white', 'w-80', 'h-80', 'top-5');
+            div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded');
             
             div.innerHTML = `
             <div class="p-5">
@@ -59,19 +77,34 @@ const UICtrl = (function(){
                     <h3 class="text-xl uppercase leading-5">Rules</h3>
                     <button class="js-modal-close close-modal-btn h-5 w-5 flex justify-center items-center text-black"></button>
                 </div>           
+                <img class="mt-10 h-80" src="src/images/image-rules.svg" />
             </div>`;
             
             document.body.appendChild(div);
-            
+            document.querySelector(UISelectors.jsRulesModalClose).addEventListener('click', closeModal); 
+            document.addEventListener('click', closeModalOutsideClick);
         } else {
             closeModal();
         }
-
-        document.querySelector(UISelectors.jsRulesModalClose).addEventListener('click', closeModal); 
+        
     }
 
     function closeModal(){
-        document.querySelector('.js-modal').remove();
+        const jsModal = document.querySelector('.js-modal');
+
+        if(jsModal){
+            document.querySelector('.js-modal').remove(); 
+        } 
+    }
+
+    function closeModalOutsideClick(){
+        const targetElement = event.target;
+
+        if(UISelectors.jsModal){
+            if(!targetElement.classList.contains('js-rules-modal') && !targetElement.closest('.js-modal')){
+                closeModal();
+            }
+        }
     }
 
       return {
@@ -80,6 +113,9 @@ const UICtrl = (function(){
           },
           CloseModal: function(){
             closeModal();
+          },
+          CloseModalOutsideClick: function(){
+            closeModalOutsideClick();
           },
           GetSelectors: function(){
               return UISelectors;
@@ -94,65 +130,24 @@ const App = (function(UICtrl, DataCtrl){
         const UISelectors = UICtrl.GetSelectors();
         document.querySelector(UISelectors.jsRulesModal).addEventListener('click', UICtrl.ShowModal);
         document.querySelectorAll(UISelectors.choiceContainer).forEach(item => item.addEventListener('click', handleChoiceClick));
+
     }
 
-    const handleChoiceClick = function(e){
-        const target = e.target;
+    const handleChoiceClick = function(){
+        const target = event.target;
         const realTarget = target.closest('.choice-container');
 
-        DataCtrl.handleData('computerSelection', randomComputerSelection(), null);     
-         
+        
         if(realTarget.classList.contains('js-paper')){
-            DataCtrl.handleData('userSelection', 'paper', handleWinner());
-        }
+            DataCtrl.handleData(randomComputerSelection(), 'paper')}
         
         if(realTarget.classList.contains('js-rock')){
-            DataCtrl.handleData('userSelection', 'rock', handleWinner());
+            DataCtrl.handleData(randomComputerSelection(), 'rock');
         }
 
         if(realTarget.classList.contains('js-scissors')){
-            DataCtrl.handleData('userSelection', 'scissors', handleWinner());
+            DataCtrl.handleData(randomComputerSelection(), 'scissors');
         }   
-    }
-
-    const handleWinner = function(){
-        const data = DataCtrl.getData();
-
-        if(data.userSelection === 'scissors' && data.computerSelection === 'rock'){
-            const newScore = data.score --;
-
-            return newScore;
-        }
-
-        if(data.userSelection === 'rock' && data.computerSelection === 'scissors'){
-            const newScore =  data.score ++;
-
-            return newScore;
-        }
-
-        if(data.userSelection === 'rock' && data.computerSelection === 'paper'){
-            const newScore =  data.score --;
-
-            return newScore;
-        }
-
-        if(data.userSelection === 'paper' && data.computerSelection === 'rock'){
-            const newScore =  data.score ++;
-
-            return newScore;
-        }
-
-        if(data.userSelection === 'paper' && data.computerSelection === 'scissors'){
-            const newScore =  data.score --;
-
-            return newScore;
-        }
-
-        if(data.userSelection === 'scissors' && data.computerSelection === 'paper'){
-            const newScore =  data.score ++;
-
-            return newScore;
-        }
     }
 
     const randomComputerSelection = function() {
@@ -166,6 +161,9 @@ const App = (function(UICtrl, DataCtrl){
         init: function(){
             loadEventListeners();
             console.log('app initialized');
+        },
+        HandleWinner: function(theComputerSelection, theUserSelection, score){
+            handleWinner(theComputerSelection, theUserSelection, score);
         }
     }
 })(UICtrl, DataCtrl);
