@@ -430,6 +430,44 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
+.container{
+  width: 100%;
+}
+
+@media (min-width: 640px){
+  .container{
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px){
+  .container{
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px){
+  .container{
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px){
+  .container{
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px){
+  .container{
+    max-width: 1536px;
+  }
+}
+
+.invisible{
+  visibility: hidden;
+}
+
 .fixed{
   position: fixed;
 }
@@ -470,8 +508,28 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 2.5rem;
 }
 
+.mr-20{
+  margin-right: 5rem;
+}
+
+.ml-20{
+  margin-left: 5rem;
+}
+
+.mt-2{
+  margin-top: 0.5rem;
+}
+
+.block{
+  display: block;
+}
+
 .flex{
   display: flex;
+}
+
+.hidden{
+  display: none;
 }
 
 .h-full{
@@ -490,12 +548,45 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 83.333333%;
 }
 
+.w-screen{
+  width: 100vw;
+}
+
 .w-full{
   width: 100%;
 }
 
 .w-5{
   width: 1.25rem;
+}
+
+@-webkit-keyframes fadeIn{
+  0%{
+    opacity: 0;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn{
+  0%{
+    opacity: 0;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
+
+.animate-fade{
+  -webkit-animation: fadeIn 300ms ease-in;
+          animation: fadeIn 300ms ease-in;
+}
+
+.cursor-none{
+  cursor: none;
 }
 
 .flex-col{
@@ -554,6 +645,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 1rem;
 }
 
+.py-2{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.pb-10{
+  padding-bottom: 2.5rem;
+}
+
+.text-center{
+  text-align: center;
+}
+
 .text-xl{
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -562,6 +666,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-4xl{
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-lg{
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-2xl{
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-bold{
@@ -594,6 +708,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
+.ease-in{
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
 /* Colors */
 
 /* Text */
@@ -609,6 +727,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .game-area-container {
   height: 500px;
+  width: 700px;
 }
 
 .choice-container{
@@ -622,6 +741,34 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 1px;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.game-area-progress .choice-container{
+  display: flex;
+  height: 9rem;
+  width: 9rem;
+  cursor: auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.choice-container.none{
+  margin-top: 1.25rem;
+  display: flex;
+  height: 9rem;
+  width: 9rem;
+  cursor: auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: transparent;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.2;
 }
 
 .choice-container-wrap.paper{
