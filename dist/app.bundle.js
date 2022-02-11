@@ -76,7 +76,7 @@ var UICtrl = function () {
 
       var div = document.createElement('div'); // Add classes
 
-      div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded');
+      div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded', 'animate-fade');
       div.innerHTML = "\n            <div class=\"p-5\">\n                <div class=\"flex justify-between items-center\">\n                    <h3 class=\"text-xl uppercase leading-5\">Rules</h3>\n                    <button class=\"js-modal-close close-modal-btn h-5 w-5 flex justify-center items-center text-black\"></button>\n                </div>           \n                <img class=\"mt-10 h-80\" src=\"src/images/image-rules.svg\" />\n            </div>";
       document.body.appendChild(div);
       document.querySelector(UISelectors.jsRulesModalClose).addEventListener('click', closeModal);
@@ -115,27 +115,27 @@ var UICtrl = function () {
         userSelection = data.userSelection,
         computerSelection = data.computerSelection;
     document.querySelector(UISelectors.gameArea).remove();
-    document.querySelector(UISelectors.gameAreaContainer).innerHTML = "\n        <div class=\"game-area-progress text-white flex justify-between\">\n            <div class=\"flex justify-between\">\n                <div class=\"user-pick mr-20\">\n                <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">You picked</h2>\n                <div class=\"choice-container-wrap ".concat(userSelection, "\">\n                    <div class=\"choice-container cursor-none ").concat(userSelection, "\">\n                    <img src=\"src/images/icon-").concat(userSelection, ".svg\" alt=\"").concat(userSelection, "\" srcset=\"src/images/icon-").concat(userSelection, ".svg\">\n                    </div>\n                </div>\n                </div>\n                <div class=\"computer-pick ml-20\">\n                <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">The house picked</h2>\n                <div class=\"choice-container-wrap cursor-none\">\n                    <div class=\"choice-container none\">\n                    </div>\n                </div>\n                </div>\n            </div>\n        </div>\n        ");
+    document.querySelector(UISelectors.gameAreaContainer).innerHTML = "\n        <div class=\"game-area-progress text-white justify-between hidden sm:flex\">\n            <div class=\"flex justify-between items-center\">\n                <div class=\"user-pick mr-20\">\n                <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">You picked</h2>\n                <div class=\"choice-container-wrap ".concat(userSelection, "\">\n                    <div class=\"choice-container cursor-none ").concat(userSelection, "\">\n                    <img src=\"src/images/icon-").concat(userSelection, ".svg\" alt=\"").concat(userSelection, "\" srcset=\"src/images/icon-").concat(userSelection, ".svg\">\n                    </div>\n                </div>\n                </div>\n                <div class=\"js-play-again opacity-0\">\n                    <div class=\"p-5\">\n                        <div class=\"flex-column items-center\">\n                            <h3 class=\"text-2xl uppercase leading-5\">").concat(data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw', "</h3>\n                            <button class=\"js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase\">play again</button>\n                        </div>   \n                    </div>\n                </div>\n                <div class=\"computer-pick ml-20\">\n                <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">The house picked</h2>\n                <div class=\"choice-container-wrap cursor-none\">\n                    <div class=\"choice-container none\">\n                    </div>\n                </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"game-area-progress text-white flex justify-between sm:hidden\">\n        <div class=\"flex justify-between items-center\">\n            <div class=\"user-pick mr-20\">\n            <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">You picked</h2>\n            <div class=\"choice-container-wrap ").concat(userSelection, "\">\n                <div class=\"choice-container cursor-none ").concat(userSelection, "\">\n                <img src=\"src/images/icon-").concat(userSelection, ".svg\" alt=\"").concat(userSelection, "\" srcset=\"src/images/icon-").concat(userSelection, ".svg\">\n                </div>\n            </div>\n            </div>\n\n            <div class=\"computer-pick ml-20\">\n            <h2 class=\"text-lg text-center pb-10 uppercase leading-5\">The house picked</h2>\n            <div class=\"choice-container-wrap cursor-none\">\n                <div class=\"choice-container none\">\n                </div>\n            </div>\n            </div>\n            <div class=\"js-play-again opacity-0\">\n            <div class=\"p-5\">\n                <div class=\"flex-column items-center\">\n                    <h3 class=\"text-2xl uppercase leading-5\">").concat(data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw', "</h3>\n                    <button class=\"js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase\">play again</button>\n                </div>   \n            </div>\n        </div>\n        </div>\n    </div>\n        ");
 
     (function () {
       setTimeout(function () {
-        document.querySelector('.computer-pick .choice-container').classList.remove('none');
-        document.querySelector('.computer-pick .choice-container').classList.add("".concat(computerSelection));
-        document.querySelector('.computer-pick .choice-container-wrap').classList.add("".concat(computerSelection), 'animate-fade');
-        document.querySelector('.computer-pick .choice-container').innerHTML = "\n                <img src=\"src/images/icon-".concat(computerSelection, ".svg\" alt=\"").concat(computerSelection, "\" srcset=\"src/images/icon-").concat(computerSelection, ".svg\">\n                ");
+        document.querySelectorAll('.computer-pick .choice-container').forEach(function (item) {
+          item.classList.remove('none');
+        });
+        document.querySelectorAll('.computer-pick .choice-container').forEach(function (item) {
+          item.classList.add("".concat(computerSelection));
+        });
+        document.querySelectorAll('.computer-pick .choice-container-wrap').forEach(function (item) {
+          item.classList.add("".concat(computerSelection), 'animate-fade');
+        });
+        document.querySelectorAll('.computer-pick .choice-container').forEach(function (item) {
+          item.innerHTML = "\n                    <img src=\"src/images/icon-".concat(computerSelection, ".svg\" alt=\"").concat(computerSelection, "\" srcset=\"src/images/icon-").concat(computerSelection, ".svg\">\n                    ");
+        });
       }, 1000);
       setTimeout(function () {
-        // Get data
-        var data = DataCtrl.getData(); // Create div
-
-        var div = document.createElement('div'); // Add classes
-
-        div.classList.add('js-play-again'); // Parent el
-
-        var parentEl = document.querySelector('.game-area-progress > div');
-        var computerPickContainer = document.querySelector('.computer-pick');
-        div.innerHTML = "\n                <div class=\"p-5\">\n                    <div class=\"flex-column items-center\">\n                        <h3 class=\"text-2xl uppercase leading-5\">".concat(data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw', "</h3>\n                        <button class=\"js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase\">play again</button>\n                    </div>   \n                </div>");
-        parentEl.insertBefore(div, computerPickContainer); //Update score
+        // Show js play again
+        document.querySelector(UISelectors.jsPlayAgain).classList.remove('opacity-0');
+        document.querySelector(UISelectors.jsPlayAgain).classList.add('opacity-100', 'animate-fade'); //Update score
 
         document.querySelector(UISelectors.jsScore).textContent = data.score;
         document.querySelector(UISelectors.jsPlayAgainBtn).addEventListener('click', function () {

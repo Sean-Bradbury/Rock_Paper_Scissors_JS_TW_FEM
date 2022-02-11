@@ -78,7 +78,7 @@ const UICtrl = (function(){
             // Create div
             const div = document.createElement('div');
             // Add classes
-            div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded');
+            div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded', 'animate-fade');
             
             div.innerHTML = `
             <div class="p-5">
@@ -153,8 +153,8 @@ const UICtrl = (function(){
         document.querySelector(UISelectors.gameArea).remove();
 
         document.querySelector(UISelectors.gameAreaContainer).innerHTML = `
-        <div class="game-area-progress text-white flex justify-between">
-            <div class="flex justify-between">
+        <div class="game-area-progress text-white justify-between hidden sm:flex">
+            <div class="flex justify-between items-center">
                 <div class="user-pick mr-20">
                 <h2 class="text-lg text-center pb-10 uppercase leading-5">You picked</h2>
                 <div class="choice-container-wrap ${userSelection}">
@@ -162,6 +162,14 @@ const UICtrl = (function(){
                     <img src="src/images/icon-${userSelection}.svg" alt="${userSelection}" srcset="src/images/icon-${userSelection}.svg">
                     </div>
                 </div>
+                </div>
+                <div class="js-play-again opacity-0">
+                    <div class="p-5">
+                        <div class="flex-column items-center">
+                            <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
+                            <button class="js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase">play again</button>
+                        </div>   
+                    </div>
                 </div>
                 <div class="computer-pick ml-20">
                 <h2 class="text-lg text-center pb-10 uppercase leading-5">The house picked</h2>
@@ -172,41 +180,61 @@ const UICtrl = (function(){
                 </div>
             </div>
         </div>
+        <div class="game-area-progress text-white flex justify-between sm:hidden">
+        <div class="flex justify-between items-center">
+            <div class="user-pick mr-20">
+            <h2 class="text-lg text-center pb-10 uppercase leading-5">You picked</h2>
+            <div class="choice-container-wrap ${userSelection}">
+                <div class="choice-container cursor-none ${userSelection}">
+                <img src="src/images/icon-${userSelection}.svg" alt="${userSelection}" srcset="src/images/icon-${userSelection}.svg">
+                </div>
+            </div>
+            </div>
+
+            <div class="computer-pick ml-20">
+            <h2 class="text-lg text-center pb-10 uppercase leading-5">The house picked</h2>
+            <div class="choice-container-wrap cursor-none">
+                <div class="choice-container none">
+                </div>
+            </div>
+            </div>
+            <div class="js-play-again opacity-0">
+            <div class="p-5">
+                <div class="flex-column items-center">
+                    <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
+                    <button class="js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase">play again</button>
+                </div>   
+            </div>
+        </div>
+        </div>
+    </div>
         `;
 
         (function(){
             setTimeout(function(){
-                document.querySelector('.computer-pick .choice-container').classList.remove('none');
+                document.querySelectorAll('.computer-pick .choice-container').forEach(item => {
+                    item.classList.remove('none');
+                });
 
-                document.querySelector('.computer-pick .choice-container').classList.add(`${computerSelection}`);
-                document.querySelector('.computer-pick .choice-container-wrap').classList.add(`${computerSelection}`, 'animate-fade');
+                document.querySelectorAll('.computer-pick .choice-container').forEach(item => {
+                    item.classList.add(`${computerSelection}`);
+                });
 
-                document.querySelector('.computer-pick .choice-container').innerHTML = `
-                <img src="src/images/icon-${computerSelection}.svg" alt="${computerSelection}" srcset="src/images/icon-${computerSelection}.svg">
-                `;
+                document.querySelectorAll('.computer-pick .choice-container-wrap').forEach(item => {
+                    item.classList.add(`${computerSelection}`, 'animate-fade');
+                });
+
+                document.querySelectorAll('.computer-pick .choice-container').forEach(item => {
+                    item.innerHTML = `
+                    <img src="src/images/icon-${computerSelection}.svg" alt="${computerSelection}" srcset="src/images/icon-${computerSelection}.svg">
+                    `;
+                });
             }, 1000);
 
             setTimeout(function(){
-                // Get data
-                const data = DataCtrl.getData();
-                // Create div
-                const div = document.createElement('div');
-                // Add classes
-                div.classList.add('js-play-again');
-                // Parent el
-                const parentEl = document.querySelector('.game-area-progress > div');
-
-                const computerPickContainer = document.querySelector('.computer-pick');
-                
-                div.innerHTML = `
-                <div class="p-5">
-                    <div class="flex-column items-center">
-                        <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
-                        <button class="js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase">play again</button>
-                    </div>   
-                </div>`;
-
-                parentEl.insertBefore(div, computerPickContainer);
+                // Show js play again
+                document.querySelector(UISelectors.jsPlayAgain).classList.remove('opacity-0');
+                document.querySelector(UISelectors.jsPlayAgain).classList.add('opacity-100', 'animate-fade');
 
                 //Update score
                 document.querySelector(UISelectors.jsScore).textContent = data.score;
