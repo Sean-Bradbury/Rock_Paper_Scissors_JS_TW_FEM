@@ -78,7 +78,7 @@ const UICtrl = (function(){
             // Create div
             const div = document.createElement('div');
             // Add classes
-            div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded', 'animate-fade');
+            div.classList.add('js-modal', 'absolute', 'bg-white', 'top-5', 'rounded', 'animate-fadeIn');
             
             div.innerHTML = `
             <div class="p-5">
@@ -102,7 +102,8 @@ const UICtrl = (function(){
         const jsModal = document.querySelector('.js-modal');
 
         if(jsModal){
-            document.querySelector('.js-modal').remove(); 
+            document.querySelector('.js-modal').classList.add('animate-fadeOut'); 
+            setTimeout(() => document.querySelector('.js-modal').remove(), 300);            
         } 
     }
 
@@ -118,7 +119,7 @@ const UICtrl = (function(){
 
     function createGameArea(){
         document.querySelector(UISelectors.gameAreaContainer).innerHTML = `
-        <div class="game-area">
+        <div class="game-area animate-fadeIn">
             <div class="flex flex-col">
                 <div class="game-area-top w-full flex justify-between">
                     <div class="choice-container-wrap paper mr-5">
@@ -148,66 +149,48 @@ const UICtrl = (function(){
 
     function updateStepOne(){
         const data = DataCtrl.getData();
-        const { score, userSelection, computerSelection } = data;
+        const { userSelection, computerSelection } = data;
 
         document.querySelector(UISelectors.gameArea).remove();
 
         document.querySelector(UISelectors.gameAreaContainer).innerHTML = `
-        <div class="game-area-progress text-white justify-between hidden sm:flex">
-            <div class="flex justify-between items-center">
-                <div class="user-pick mr-20">
-                <h2 class="text-lg text-center pb-10 uppercase leading-5">You picked</h2>
+        <div class="game-area-progress text-white animate-fadeIn">
+            <div class="flex justify-between items-end md:items-start">
+                <div class="user-pick md:mr-20">
+                <h2 class="text-xl text-center pb-10 uppercase leading-5 hidden md:block">You picked</h2>
                 <div class="choice-container-wrap ${userSelection}">
                     <div class="choice-container cursor-none ${userSelection}">
                     <img src="src/images/icon-${userSelection}.svg" alt="${userSelection}" srcset="src/images/icon-${userSelection}.svg">
                     </div>
                 </div>
+                <h2 class="text-2xl text-center pt-10 uppercase leading-5 md:hidden">You picked</h2>
                 </div>
-                <div class="js-play-again opacity-0">
+                <div class="js-play-again opacity-0 hidden text-center md:block md:self-center">
                     <div class="p-5">
                         <div class="flex-column items-center">
                             <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
-                            <button class="js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase">play again</button>
+                            <button class="js-play-again-btn mt-2 w-full rounded grid place-content-center py-2 px-4 bg-white text-black text-lg uppercase">play again</button>
                         </div>   
                     </div>
                 </div>
-                <div class="computer-pick ml-20">
-                <h2 class="text-lg text-center pb-10 uppercase leading-5">The house picked</h2>
+                <div class="computer-pick ml-20 flex-column justify-content-end">
+                <h2 class="text-xl text-center pb-10 uppercase leading-5 hidden md:block">The house picked</h2>
                 <div class="choice-container-wrap cursor-none">
                     <div class="choice-container none">
                     </div>
                 </div>
+                <h2 class="text-2xl text-center pt-10 uppercase leading-5 md:hidden">The house picked</h2>
                 </div>
             </div>
-        </div>
-        <div class="game-area-progress text-white flex justify-between sm:hidden">
-        <div class="flex justify-between items-center">
-            <div class="user-pick mr-20">
-            <h2 class="text-lg text-center pb-10 uppercase leading-5">You picked</h2>
-            <div class="choice-container-wrap ${userSelection}">
-                <div class="choice-container cursor-none ${userSelection}">
-                <img src="src/images/icon-${userSelection}.svg" alt="${userSelection}" srcset="src/images/icon-${userSelection}.svg">
-                </div>
-            </div>
-            </div>
-
-            <div class="computer-pick ml-20">
-            <h2 class="text-lg text-center pb-10 uppercase leading-5">The house picked</h2>
-            <div class="choice-container-wrap cursor-none">
-                <div class="choice-container none">
-                </div>
-            </div>
-            </div>
-            <div class="js-play-again opacity-0">
+            <div class="js-play-again mt-10 opacity-0 md:hidden">
             <div class="p-5">
-                <div class="flex-column items-center">
-                    <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
-                    <button class="js-play-again-btn flex mt-2 w-full rounded justify-center items-center py-2 bg-white text-black uppercase">play again</button>
+                <div class="flex-column items-center text-center">
+                    <h3 class="text-5xl uppercase leading-10 mb-3">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
+                    <button class="js-play-again-btn text-3xl inline-flex mt-2 rounded justify-center items-center py-3 px-4 bg-white text-black uppercase">play again</button>
                 </div>   
             </div>
+            </div>
         </div>
-        </div>
-    </div>
         `;
 
         (function(){
@@ -221,7 +204,7 @@ const UICtrl = (function(){
                 });
 
                 document.querySelectorAll('.computer-pick .choice-container-wrap').forEach(item => {
-                    item.classList.add(`${computerSelection}`, 'animate-fade');
+                    item.classList.add(`${computerSelection}`, 'animate-fadeIn');
                 });
 
                 document.querySelectorAll('.computer-pick .choice-container').forEach(item => {
@@ -233,19 +216,27 @@ const UICtrl = (function(){
 
             setTimeout(function(){
                 // Show js play again
-                document.querySelector(UISelectors.jsPlayAgain).classList.remove('opacity-0');
-                document.querySelector(UISelectors.jsPlayAgain).classList.add('opacity-100', 'animate-fade');
+                const jsPlayAgainBtns = document.querySelectorAll(UISelectors.jsPlayAgain);
+                jsPlayAgainBtns.forEach((btn) => {
+                    btn.classList.remove('opacity-0');
+                    btn.classList.add('opacity-100', 'animate-fadeIn');
+                });
 
                 //Update score
+                addFadeInAnimation(UISelectors.jsScore);
                 document.querySelector(UISelectors.jsScore).textContent = data.score;
+                             
 
-                document.querySelector(UISelectors.jsPlayAgainBtn).addEventListener('click', function(){
-                    const gameArea = document.querySelector(UISelectors.gameArea);
-                    const gameAreaProgress = document.querySelector(UISelectors.gameAreaProgressContainer);
-
-                    gameAreaProgress.remove();
-                    createGameArea();
+                jsPlayAgainBtns.forEach((btn) =>  {
+                    btn.addEventListener('click', function(){
+                        const gameArea = document.querySelector(UISelectors.gameArea);
+                        const gameAreaProgress = document.querySelector(UISelectors.gameAreaProgressContainer);
+    
+                        gameAreaProgress.remove();
+                        createGameArea();
+                    });
                 });
+                
             }, 2000);
         })();
 
@@ -254,6 +245,11 @@ const UICtrl = (function(){
     function updateScore(){
         const data = DataCtrl.getData();
         document.querySelector(UISelectors.jsScore).textContent = data.score;
+    }
+
+    function addFadeInAnimation(selector){
+        document.querySelector(selector).classList.add('animate-fadeIn');
+        setTimeout(() => document.querySelector(selector).classList.remove('animate-fadeIn'), 300);   
     }
 
       return {

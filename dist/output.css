@@ -426,16 +426,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 *, ::before, ::after{
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
-}
-
-.visible{
-  visibility: visible;
-}
-
-.invisible{
-  visibility: hidden;
 }
 
 .fixed{
@@ -448,10 +448,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bottom-5{
   bottom: 1.25rem;
-}
-
-.right-5{
-  right: 1.25rem;
 }
 
 .top-5{
@@ -478,20 +474,36 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 1.25rem;
 }
 
-.mr-20{
-  margin-right: 5rem;
+.mt-2{
+  margin-top: 0.5rem;
 }
 
 .ml-20{
   margin-left: 5rem;
 }
 
-.mt-2{
-  margin-top: 0.5rem;
+.mt-4{
+  margin-top: 1rem;
+}
+
+.mb-3{
+  margin-bottom: 0.75rem;
+}
+
+.mt-20{
+  margin-top: 5rem;
 }
 
 .flex{
   display: flex;
+}
+
+.inline-flex{
+  display: inline-flex;
+}
+
+.grid{
+  display: grid;
 }
 
 .hidden{
@@ -526,6 +538,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+.scale-75{
+  --tw-scale-x: .75;
+  --tw-scale-y: .75;
+  transform: var(--tw-transform);
+}
+
 @-webkit-keyframes fadeIn{
   0%{
     opacity: 0;
@@ -546,9 +564,36 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }
 
-.animate-fade{
-  -webkit-animation: fadeIn 300ms ease-in;
-          animation: fadeIn 300ms ease-in;
+.animate-fadeIn{
+  -webkit-animation: fadeIn 300ms linear;
+          animation: fadeIn 300ms linear;
+}
+
+@-webkit-keyframes fadeOut{
+  0%{
+    opacity: 1;
+  }
+
+  100%{
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes fadeOut{
+  0%{
+    opacity: 1;
+  }
+
+  100%{
+    opacity: 0;
+    display: none;
+  }
+}
+
+.animate-fadeOut{
+  -webkit-animation: fadeOut 300ms linear;
+          animation: fadeOut 300ms linear;
 }
 
 .cursor-none{
@@ -557,6 +602,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .flex-col{
   flex-direction: column;
+}
+
+.place-content-center{
+  place-content: center;
+}
+
+.items-end{
+  align-items: flex-end;
 }
 
 .items-center{
@@ -616,17 +669,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.5rem;
 }
 
+.py-3{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .pb-10{
   padding-bottom: 2.5rem;
+}
+
+.pt-10{
+  padding-top: 2.5rem;
 }
 
 .text-center{
   text-align: center;
 }
 
-.text-xl{
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+.text-2xl{
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-4xl{
@@ -639,9 +701,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75rem;
 }
 
-.text-2xl{
-  font-size: 1.5rem;
-  line-height: 2rem;
+.text-xl{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.text-5xl{
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-3xl{
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .font-bold{
@@ -658,6 +730,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .leading-none{
   line-height: 1;
+}
+
+.leading-10{
+  line-height: 2.5rem;
 }
 
 .tracking-widest{
@@ -682,32 +758,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   opacity: 1;
 }
 
-.transition-opacity{
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.duration-300{
-  transition-duration: 300ms;
-}
-
-.duration-500{
-  transition-duration: 500ms;
-}
-
-.duration-1000{
-  transition-duration: 1000ms;
-}
-
-.ease-in{
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.ease-linear{
-  transition-timing-function: linear;
-}
-
 /* Colors */
 
 /* Text */
@@ -724,6 +774,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 .game-area-container {
   height: 500px;
   width: 700px;
+}
+
+@media(max-width:768px){
+  .game-area-container {
+    height: auto;
+    width: 100%;
+  }
 }
 
 .choice-container{
@@ -821,31 +878,43 @@ button {
   width: 15px;
 }
 
-@media (min-width: 640px){
-  .sm\:visible{
-    visibility: visible;
+@media (min-width: 768px){
+  .md\:right-5{
+    right: 1.25rem;
   }
 
-  .sm\:invisible{
-    visibility: hidden;
+  .md\:mr-20{
+    margin-right: 5rem;
   }
 
-  .sm\:flex{
+  .md\:block{
+    display: block;
+  }
+
+  .md\:flex{
     display: flex;
   }
 
-  .sm\:hidden{
+  .md\:hidden{
     display: none;
   }
-}
 
-@media (min-width: 768px){
-  .md\:visible{
-    visibility: visible;
+  .md\:scale-100{
+    --tw-scale-x: 1;
+    --tw-scale-y: 1;
+    transform: var(--tw-transform);
   }
 
-  .md\:invisible{
-    visibility: hidden;
+  .md\:items-start{
+    align-items: flex-start;
+  }
+
+  .md\:items-center{
+    align-items: center;
+  }
+
+  .md\:self-center{
+    align-self: center;
   }
 }
 

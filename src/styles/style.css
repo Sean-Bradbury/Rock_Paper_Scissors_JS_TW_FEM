@@ -46,6 +46,13 @@
         width: 700px;
     }
 
+    @media(max-width:768px){
+        .game-area-container {
+            height: auto;
+            width: 100%;
+        }
+    }
+
     .choice-container {
         @apply  h-36 w-36 border rounded-full flex justify-center items-center bg-white cursor-pointer;
     }
@@ -57,7 +64,7 @@
     .choice-container.none {
         @apply  h-36 w-36 border border-transparent rounded-full flex justify-center items-center bg-black bg-opacity-20 cursor-auto mt-5;
     }
-
+    
     .choice-container-wrap.paper {
         @apply p-5 rounded-full color-paper-gradient;
     }
