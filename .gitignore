@@ -1,3 +1,8 @@
 node_modules/
 package-lock.json
 style-guid.md
+babel.config.json
+README-template.md
+README.md
+style-guide.md
+design/

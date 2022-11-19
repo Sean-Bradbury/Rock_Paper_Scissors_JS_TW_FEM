@@ -149,7 +149,7 @@ const UICtrl = (function(){
 
     function updateStepOne(){
         const data = DataCtrl.getData();
-        const { userSelection, computerSelection } = data;
+        const { userSelection, computerSelection, winner } = data;
 
         document.querySelector(UISelectors.gameArea).remove();
 
@@ -158,7 +158,7 @@ const UICtrl = (function(){
             <div class="flex justify-between items-end md:items-start">
                 <div class="user-pick md:mr-20">
                 <h2 class="text-xl text-center pb-10 uppercase leading-5 hidden md:block">You picked</h2>
-                <div class="choice-container-wrap ${userSelection}">
+                <div class="choice-container-wrap ${userSelection} ${winner === 'user' ? 'won' : winner === 'computer' ? 'lost' : ''}">
                     <div class="choice-container cursor-none ${userSelection}">
                     <img src="src/images/icon-${userSelection}.svg" alt="${userSelection}" srcset="src/images/icon-${userSelection}.svg">
                     </div>
@@ -168,14 +168,14 @@ const UICtrl = (function(){
                 <div class="js-play-again opacity-0 hidden text-center md:block md:self-center">
                     <div class="p-5">
                         <div class="flex-column items-center">
-                            <h3 class="text-2xl uppercase leading-5">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
-                            <button class="js-play-again-btn mt-2 w-full rounded grid place-content-center py-2 px-4 bg-white text-black text-lg uppercase">play again</button>
+                            <h3 class="text-2xl uppercase leading-5">${winner === 'user' ? 'You Won' : winner === 'computer' ? 'You lost' : 'Draw'}</h3>
+                            <button class="js-play-again-btn mt-2 w-full rounded grid place-content-center py-2 px-4 bg-white text-black hover:text-red-500 text-lg uppercase">play again</button>
                         </div>   
                     </div>
                 </div>
                 <div class="computer-pick ml-20 flex-column justify-content-end">
                 <h2 class="text-xl text-center pb-10 uppercase leading-5 hidden md:block">The house picked</h2>
-                <div class="choice-container-wrap cursor-none">
+                <div class="choice-container-wrap cursor-none ${winner === 'user' ? 'lost' : winner === 'computer' ? 'won' : ''}">
                     <div class="choice-container none">
                     </div>
                 </div>
@@ -185,8 +185,8 @@ const UICtrl = (function(){
             <div class="js-play-again mt-10 opacity-0 md:hidden">
             <div class="p-5">
                 <div class="flex-column items-center text-center">
-                    <h3 class="text-5xl uppercase leading-10 mb-3">${data.winner === 'user' ? 'You Won' : data.winner === 'computer' ? 'You lost' : 'Draw'}</h3>
-                    <button class="js-play-again-btn text-3xl inline-flex mt-2 rounded justify-center items-center py-3 px-4 bg-white text-black uppercase">play again</button>
+                    <h3 class="text-5xl uppercase leading-10 mb-3">${winner === 'user' ? 'You Won' : winner === 'computer' ? 'You lost' : 'Draw'}</h3>
+                    <button class="js-play-again-btn text-3xl inline-flex mt-2 rounded justify-center items-center py-3 px-4 bg-white text-black hover:text-red-500 uppercase">play again</button>
                 </div>   
             </div>
             </div>
